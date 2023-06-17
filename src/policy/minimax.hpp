@@ -11,12 +11,32 @@ public:
   static Move get_move(State *state, int depth);
 };
 
-struct possible_state
+//struct possible_state
+//{
+//  State* prev_state;
+//  Move taken_move;
+//  bool operator < (possible_state& rhs)
+//  {
+//    return this->prev_state->next_state(taken_move)->evaluate() < rhs.prev_state->next_state(rhs.taken_move)->evaluate();
+//  }
+//};
+
+struct possible_state_max
 {
   State* prev_state;
   Move taken_move;
-  bool operator < (possible_state& rhs)
+  bool operator < (possible_state_max& rhs)
   {
     return this->prev_state->next_state(taken_move)->evaluate() < rhs.prev_state->next_state(rhs.taken_move)->evaluate();
+  }
+};
+
+struct possible_state_mini
+{
+  State* prev_state;
+  Move taken_move;
+  bool operator < (possible_state_mini& rhs)
+  {
+    return this->prev_state->next_state(taken_move)->evaluate() > rhs.prev_state->next_state(rhs.taken_move)->evaluate();
   }
 };
