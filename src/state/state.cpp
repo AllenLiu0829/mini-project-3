@@ -13,7 +13,53 @@
  */
 int State::evaluate(){
   // [TODO] design your own evaluation function
-  return 0;
+  int stand_0 = 0, stand_1 = 0;
+  //int hold_pos_0[BOARD_H][BOARD_W], hold_pos_1[BOARD_H][BOARD_W];
+  for(int i=0;i<BOARD_H;i++)
+  {
+    for(int j=0;j<BOARD_W;j++)
+    {
+      // remain troops state
+      // control board state
+      switch(this->board.board[0][i][j])
+      {
+        case 1:
+          stand_0 ++;
+          break;
+        case 2:
+          stand_0 += 5;
+          break;
+        case 3:
+          stand_0 += 3;
+          break;
+        case 4:
+          stand_0 += 3;
+          break;
+        case 5:
+          stand_0 += 10;
+          break;
+      }
+      switch(this->board.board[0][i][j])
+      {
+        case 1:
+          stand_1 ++;
+          break;
+        case 2:
+          stand_1 += 5;
+          break;
+        case 3:
+          stand_1 += 3;
+          break;
+        case 4:
+          stand_1 += 3;
+          break;
+        case 5:
+          stand_1 += 10;
+          break;
+      }
+    }
+  }
+  return (player)? stand_1 - stand_0 : stand_0 - stand_1;
 }
 
 
