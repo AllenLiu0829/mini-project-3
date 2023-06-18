@@ -47,6 +47,7 @@ class State{
     Board board;
     int player = 0;
     std::vector<Move> legal_actions;
+    int hold_pos[2][BOARD_H][BOARD_W];
     
     State(){};
     State(int player): player(player){};
@@ -54,6 +55,27 @@ class State{
     State(Board board, int player): board(board), player(player){};
     
     int evaluate();
+
+    // tools
+    void hold_init();
+    bool pass(int x, int y);
+
+    int upward_hold(int x, int y, int side);
+    int downward_hold(int x, int y, int side);
+    int left_hold(int x, int y, int side);
+    int right_hold(int x, int y, int side);
+    int left_up_hold(int x, int y, int side);
+    int right_up_hold(int x, int y, int side);
+    int left_down_hold(int x, int y, int side);
+    int right_down_hold(int x, int y, int side);
+
+    //evaluates
+    int pawn_evaluate(int x, int y, int side);
+    int rook_evaluate(int x, int y, int side);
+    int knight_evaluate(int x, int y, int side);
+    int bishop_evaluate(int x, int y, int steps);
+    int queen_evaluate(int x, int y, int steps);
+
     State* next_state(Move move);
     void get_legal_actions();
     std::string encode_output();
