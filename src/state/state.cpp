@@ -290,21 +290,7 @@ int State::evaluate(){
           stand[side] += queen_evaluate(i, j, side);
           break;
         case 6:
-          stand[side] += 20;
-          if(side == 0)
-          {
-            if(i != BOARD_H - 1 && j < BOARD_W - 2)
-            {
-              stand[0] -= 100;
-            }
-          }
-          else
-          {
-            if(i != 0 && j > 1)
-            {
-              stand[1] -= 100;
-            }
-          }
+          stand[side] += king_score[side][i][j];
           break;
       }
     }
