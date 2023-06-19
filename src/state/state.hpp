@@ -48,6 +48,42 @@ class State{
     int player = 0;
     std::vector<Move> legal_actions;
     int hold_pos[2][BOARD_H][BOARD_W];
+    int pawn_score[2][6][5] = {
+      {
+        { 9, 9, 9, 9, 9},
+        { 4, 4, 4, 4,-5},
+        { 3, 3, 3, 2,-9},
+        { 2, 4, 4,-5,-9},
+        { 2, 0, 0, 9, 9},
+        {-9,-9,-9,-9,-9}
+      },
+      {
+        {-9,-9,-9,-9,-9},
+        { 9, 3, 0, 0, 2},
+        {-9, 3, 4, 4, 2},
+        {-9, 0, 3, 3, 3},
+        {-5, 4, 4, 4, 4},
+        { 9, 9, 9, 9, 9}
+      }
+    };
+    int knight_score[2][6][5] = {
+      {
+        {10, 9, 4, 3, 5},
+        { 0, 4, 5, 0, 0},
+        { 5, 4, 5, 5,-1},
+        {-1, 5, 5, 4,-1},
+        {-1, 3, 3, 4, 0},
+        {-1,-1,-1, 3,-4}
+      },
+      {
+        {-4, 3,-1,-1,-1},
+        { 0, 4, 3, 3,-1},
+        {-1, 4, 5, 5,-1},
+        {-1, 5, 5, 4, 5},
+        { 0, 0, 5, 4, 0},
+        { 5, 3, 4, 9,10}
+      }
+    };
     
     State(){};
     State(int player): player(player){};
@@ -70,9 +106,7 @@ class State{
     int right_down_hold(int x, int y, int side);
 
     //evaluates
-    int pawn_evaluate(int x, int y, int side);
     int rook_evaluate(int x, int y, int side);
-    int knight_evaluate(int x, int y, int side);
     int bishop_evaluate(int x, int y, int steps);
     int queen_evaluate(int x, int y, int steps);
 
@@ -81,5 +115,4 @@ class State{
     std::string encode_output();
     std::string encode_state();
 };
-
 #endif
