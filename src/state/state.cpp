@@ -319,7 +319,7 @@ int State::evaluate(){
           break;
         case 2: // rook
           stand[side] += 5;
-          //stand[side] += rook_evaluate(i, j, side);
+          stand[side] += rook_evaluate(i, j, side);
           break;
         case 3: // knight
           stand[side] += 3;
@@ -327,11 +327,11 @@ int State::evaluate(){
           break;
         case 4: // bishop
           stand[side] += 3;
-          //stand[side] += bishop_evaluate(i, j, side);
+          stand[side] += bishop_evaluate(i, j, side);
           break;
         case 5: // queen
           stand[side] += 5;
-          //stand[side] += queen_evaluate(i, j, side);
+          stand[side] += queen_evaluate(i, j, side);
           break;
       }
     }
