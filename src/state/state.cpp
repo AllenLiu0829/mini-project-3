@@ -333,6 +333,15 @@ int State::evaluate(){
           stand[side] += 5;
           stand[side] += queen_evaluate(i, j, side);
           break;
+        case 6:
+          if(side == 0)
+          {
+            if(i > 0) stand[0]--;
+          }
+          else if(side == 1)
+          {
+            if(i < BOARD_H - 1) stand[1]--;
+          }
       }
     }
   }
