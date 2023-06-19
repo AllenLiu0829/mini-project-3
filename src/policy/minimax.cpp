@@ -17,50 +17,59 @@
 
 Move Minimax::get_move(State* state, int depth)
 {
-  state->get_legal_actions();
+  if(!state->legal_actions.size())
+    state->get_legal_actions();
   std::vector<Move> action = state->legal_actions;
   std::vector<Move>::iterator it;
-  int max_evaluate = -1, possible_state_value;
-  Move best_step = action[(rand()+depth)%action.size()];
-  for(it = action.begin();it != action.end(); it++)
+  Move best_move;
+  int max = -1, possible_state_value;
+  for(it = action.begin(); it != action.end(); it++)
   {
-    possible_state_value = mini(state, depth, *it);
-    if(possible_state_value > max_evaluate)
+    possible_state_value = minimax(state, depth, true);
+    if(possible_state_value > max)
     {
-      max_evaluate = possible_state_value;
-      best_step = *it;
+      max = possible_state_value;
+      best_move = *it;
     }
   }
-  return best_step;
+  return best_move;
 }
 
-int Minimax::mini(State* prev_state, int depth, Move move)
+int Minimax::max(int lhs, int rhs)
 {
-  State* state = prev_state->next_state(move);
-  state->get_legal_actions();
-  std::vector<Move> action = state->legal_actions;
-  std::vector<Move>::iterator it;
-  auto minicompare = [](int lhs, int rhs) {return lhs < rhs;};
-  std::priority_queue<int, std::vector<int>, decltype(minicompare)> possible_state_value;
-  for(it = action.begin();it != action.end(); it++)
-  {
-    possible_state_value.push(max(state, depth - 1, *it));
-  }
-  return possible_state_value.top();
+  return (lhs > rhs)? lhs : rhs;
 }
 
-int Minimax::max(State* prev_state, int depth, Move move)
+int Minimax::mini(int lhs, int rhs)
 {
-  State* state = prev_state->next_state(move);
+  return (lhs < rhs)? lhs : rhs;
+}
+
+int Minimax::minimax(State* state, int depth, bool maximizing)
+{
   state->get_legal_actions();
+  if(depth == 0 || state->legal_actions.size() == 0)
+  {
+    return state->evaluate();
+  }
   std::vector<Move> action = state->legal_actions;
   std::vector<Move>::iterator it;
-  auto maxcompare = [](int lhs, int rhs) {return lhs > rhs;};
-  std::priority_queue<int, std::vector<int>, decltype(maxcompare)> possible_state_value;
-  for(it = action.begin();it != action.end(); it++)
+  if(maximizing)
   {
-    if(depth == 0) possible_state_value.push(state->next_state(*it)->evaluate());
-    else possible_state_value.push(mini(state, depth - 1, *it));
+    int value = 0;
+    for(it = action.begin(); it != action.end(); it++)
+    {
+      value = max(value, minimax(state->next_state(*it), depth - 1, false));
+    }
+    return value;
   }
-  return possible_state_value.top();
+  else
+  {
+    int value = __INT_MAX__;
+    for(it = action.begin(); it != action.end(); it++)
+    {
+      value = mini(value, minimax(state->next_state(*it), depth - 1, true));
+    }
+    return value;
+  }
 }

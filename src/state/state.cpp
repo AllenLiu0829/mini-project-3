@@ -234,22 +234,23 @@ int State::right_down_hold(int x, int y, int side)
 
 int State::pawn_evaluate(int x, int y, int side)
 {
-  int score = 0;
+  int score = 1;
   //control position
-  if(x + 1 < BOARD_H && y + 1 < BOARD_W)
+  int flag = (side)? -1 : 1;
+  if(x + 1 < BOARD_H && x + flag >= 0 && y + 1 < BOARD_W)
   {
-    if(hold_pos[side][x + 1][y + 1] != 1)
+    if(hold_pos[side][x + flag][y + 1] != 1)
     {
       score ++;
-      hold_pos[side][x + 1][y + 1] = 1;
+      hold_pos[side][x + flag][y + 1] = 1;
     }
   }
-  if(x + 1 < BOARD_H && y - 1 >= 0)
+  if(x + 1 < BOARD_H && x + flag >= 0 && y - 1 >= 0)
   {
-    if(hold_pos[side][x + 1][y - 1] != 1)
+    if(hold_pos[side][x + flag][y - 1] != 1)
     {
       score ++;
-      hold_pos[side][x + 1][y - 1] = 1;
+      hold_pos[side][x + flag][y - 1] = 1;
     }
   }
   return score;
@@ -312,26 +313,23 @@ int State::evaluate(){
       switch(this->board.board[side][i][j])
       {
         case 1: // pawn
-          /*if(i == BOARD_H - 3) stand[side] += 3;
-          //else if(i == BOARD_H - 2) stand[side] += 10;
-          else*/ stand[side] ++;
-          //stand[side] += pawn_evaluate(i, j, side);
+          stand[side] += pawn_evaluate(i, j, side);
           break;
         case 2: // rook
           stand[side] += 5;
-          //stand[side] += rook_evaluate(i, j, side);
+          stand[side] += rook_evaluate(i, j, side);
           break;
         case 3: // knight
           stand[side] += 3;
-          //stand[side] += knight_evaluate(i, j, side);
+          stand[side] += knight_evaluate(i, j, side);
           break;
         case 4: // bishop
           stand[side] += 3;
-          //stand[side] += bishop_evaluate(i, j, side);
+          stand[side] += bishop_evaluate(i, j, side);
           break;
         case 5: // queen
           stand[side] += 5;
-          //stand[side] += queen_evaluate(i, j, side);
+          stand[side] += queen_evaluate(i, j, side);
           break;
         case 6:
           if(side == 0)

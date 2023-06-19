@@ -9,6 +9,7 @@
 class Minimax{
 public:
   static Move get_move(State *state, int depth);
-  static int mini(State* prev_state, int depth, Move move);
-  static int max(State* prev_state, int depth, Move move);
+  static int mini(int lhs, int rhs);
+  static int max(int lhs, int rhs);
+  static int minimax(State* state, int depth, bool maximizing);
 };
