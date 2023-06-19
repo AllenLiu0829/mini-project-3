@@ -5,7 +5,7 @@
 #include "../state/state.hpp"
 #include "../policy/minimax.hpp"
 
-#define depth 10
+#define depth 4
 
 State* root;
 
