@@ -25,7 +25,7 @@ Move Minimax::get_move(State* state, int depth)
   int max = -100, possible_state_value;
   for(it = action.begin(); it != action.end(); it++)
   {
-    possible_state_value = minimax(state, depth, true);
+    possible_state_value = minimax(state->next_state(*it), depth, true);
     if(possible_state_value > max)
     {
       max = possible_state_value;
@@ -33,16 +33,6 @@ Move Minimax::get_move(State* state, int depth)
     }
   }
   return best_move;
-}
-
-int Minimax::max(int lhs, int rhs)
-{
-  return (lhs > rhs)? lhs : rhs;
-}
-
-int Minimax::mini(int lhs, int rhs)
-{
-  return (lhs < rhs)? lhs : rhs;
 }
 
 int Minimax::minimax(State* state, int depth, bool maximizing)
@@ -59,7 +49,7 @@ int Minimax::minimax(State* state, int depth, bool maximizing)
     int value = 0;
     for(it = action.begin(); it != action.end(); it++)
     {
-      value = max(value, minimax(state->next_state(*it), depth - 1, false));
+      value = std::max(value, minimax(state->next_state(*it), depth - 1, false));
     }
     return value;
   }
@@ -68,7 +58,7 @@ int Minimax::minimax(State* state, int depth, bool maximizing)
     int value = __INT_MAX__;
     for(it = action.begin(); it != action.end(); it++)
     {
-      value = mini(value, minimax(state->next_state(*it), depth - 1, true));
+      value = std::min(value, minimax(state->next_state(*it), depth - 1, true));
     }
     return value;
   }
