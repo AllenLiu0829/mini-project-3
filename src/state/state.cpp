@@ -295,7 +295,7 @@ int State::evaluate(){
       }
     }
   }
-  return (player)? stand[1] - stand[0] : stand[0] - stand[1];
+  return stand[player];
 }
 
 

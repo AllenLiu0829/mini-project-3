@@ -25,7 +25,7 @@ Move Alphabeta::get_move(State* state, int depth)
   int max = -1, possible_state_value;
   for(it = action.begin(); it != action.end(); it++)
   {
-    possible_state_value = alphabeta(state, 0, __INT_MAX__, depth, true);
+    possible_state_value = alphabeta(state->next_state(*it), 0, __INT_MAX__, depth, true);
     if(possible_state_value > max)
     {
       max = possible_state_value;
