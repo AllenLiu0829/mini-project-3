@@ -12,253 +12,137 @@
  * @return int 
  */
 
-void State::hold_init()
-{
-  for(int k=0;k<2;k++)
-  {
-    for(int i=0;i<BOARD_H;i++)
-    {
-      for(int j=0;j<BOARD_W;j++)
-      {
-        hold_pos[k][i][j] = 0;
-      }
-    }
-  }
-}
-
 bool State::pass(int x, int y)
 {
   return (this->board.board[0][x][y] == 0) && (this->board.board[1][x][y] == 0);
 }
 
-int State::upward_hold(int x, int y, int side)
+int State::upward_hold(int x, int y)
 {
   int score = 0;
   for(int k=(x+1);k<BOARD_H;k++) // upward
   {
     if(!pass(k, y))
     {
-      if(!hold_pos[side][k][y])
-      {
-        hold_pos[side][k][y] = 1;
-        score ++;
-        break;
-      }
-    }
-    else
-    {
-      if(!hold_pos[side][k][y])
-      {
-        hold_pos[side][k][y] = 1;
-        score ++;
-      }
+      score += this->board.board[0][k][y] + this->board.board[1][k][y];
     }
   }
   return score;
 }
-int State::downward_hold(int x, int y, int side)
+int State::downward_hold(int x, int y)
 {
   int score = 0;
   for(int k=(x-1);k>=0;k--) // doward
   {
-    if(this->board.board[0][k][y] != 0 && this->board.board[1][k][y] != 0)
+    if(!pass(k, y))
     {
-      if(!pass(k, y))
-      {
-        hold_pos[side][k][y] = 1;
-        score ++;
-        break;
-      }
-    }
-    else
-    {
-      if(!hold_pos[side][k][y])
-      {
-        hold_pos[side][k][y] = 1;
-        score ++;
-      }
+      score += this->board.board[0][k][y] + this->board.board[1][k][y];
     }
   }
   return score;
 }
-int State::right_hold(int x, int y, int side)
+int State::right_hold(int x, int y)
 {
   int score = 0;
   for(int k=(y+1);k<BOARD_W;k++)
   {
     if(!pass(x, k))
     {
-      if(!hold_pos[side][x][k])
-      {
-        hold_pos[side][x][k] = 1;
-        score ++;
-        break;
-      }
-    }
-    else
-    {
-      if(!hold_pos[side][x][k])
-      {
-        hold_pos[side][x][k] = 1;
-        score ++;
-      }
+      score += this->board.board[0][x][k] + this->board.board[1][x][k];
     }
   }
   return score;
 }
-int State::left_hold(int x, int y, int side)
+int State::left_hold(int x, int y)
 {
   int score = 0;
   for(int k=(y-1);k>=0;k--)
   {
     if(!pass(x, k))
     {
-      if(!hold_pos[side][x][k])
-      {
-        hold_pos[side][x][k] = 1;
-        score ++;
-        break;
-      }
-    }
-    else
-    {
-      if(!hold_pos[side][x][k])
-      {
-        hold_pos[side][x][k] = 1;
-        score ++;
-      }
+      score += this->board.board[0][x][k] + this->board.board[1][x][k];
     }
   }
   return score;
 }
-int State::left_up_hold(int x, int y,int side)
+int State::left_up_hold(int x, int y)
 {
   int score = 0;
   for(int k=(y-1), l=(x-1);k>=0, l>=0;k--, l--)
   {
     if(!pass(l, k))
     {
-      if(!hold_pos[side][l][k])
-      {
-        hold_pos[side][l][k] = 1;
-        score ++;
-        break;
-      }
-    }
-    else
-    {
-      if(!hold_pos[side][l][k])
-      {
-        hold_pos[side][l][k] = 1;
-        score ++;
-      }
+      score += this->board.board[0][l][k] + this->board.board[1][l][k];
     }
   }
   return score;
 }
-int State::right_up_hold(int x, int y, int side)
+int State::right_up_hold(int x, int y)
 {
   int score = 0;
   for(int k=(y+1), l=(x-1);k<BOARD_W, l>=0;k++, l--)
   {
     if(!pass(l, k))
     {
-      if(!hold_pos[side][l][k])
-      {
-        hold_pos[side][l][k] = 1;
-        score ++;
-        break;
-      }
-    }
-    else
-    {
-      if(!hold_pos[side][l][k])
-      {
-        hold_pos[side][l][k] = 1;
-        score ++;
-      }
+      score += this->board.board[0][l][k] + this->board.board[1][l][k];
     }
   }
   return score;  
 }
-int State::left_down_hold(int x, int y, int side)
+int State::left_down_hold(int x, int y)
 {
   int score = 0;
   for(int k=(y-1), l=(x+1);k>=0, l<BOARD_H;k--, l++)
   {
     if(!pass(l, k))
     {
-      if(!hold_pos[side][l][k])
-      {
-        hold_pos[side][l][k] = 1;
-        score ++;
-        break;
-      }
-    }
-    else
-    {
-      if(!hold_pos[side][l][k])
-      {
-        hold_pos[side][l][k] = 1;
-        score ++;
-      }
+      score += this->board.board[0][l][k] + this->board.board[1][l][k];
     }
   }
   return score;
 }
-int State::right_down_hold(int x, int y, int side)
+int State::right_down_hold(int x, int y)
 {
   int score = 0;
   for(int k=(y+1), l=(x+1);k<BOARD_W, l<BOARD_H;k++, l++)
   {
     if(!pass(l, k))
     {
-      if(!hold_pos[side][l][k])
-      {
-        hold_pos[side][l][k] = 1;
-        score ++;
-        break;
-      }
-    }
-    else
-    {
-      if(!hold_pos[side][l][k])
-      {
-        hold_pos[side][l][k] = 1;
-        score ++;
-      }
+      score += this->board.board[0][l][k] + this->board.board[1][l][k];
     }
   }
   return score;
 }
 
-int State::rook_evaluate(int x, int y, int side)
+int State::rook_evaluate(int x, int y)
 {
   int score = 0;
-  score += upward_hold(x, y, side);
-  score += downward_hold(x, y, side);
+  score += upward_hold(x, y);
+  score += downward_hold(x, y);
+  score += left_hold(x, y);
+  score += right_hold(x, y);
   return score;
 }
-int State::bishop_evaluate(int x, int y, int side)
+int State::bishop_evaluate(int x, int y)
 {
   int score = 0;
-  score += left_up_hold(x, y, side);
-  score += right_up_hold(x, y, side);
-  score += left_down_hold(x, y, side);
-  score += right_down_hold(x, y, side);
+  score += left_up_hold(x, y);
+  score += right_up_hold(x, y);
+  score += left_down_hold(x, y);
+  score += right_down_hold(x, y);
   return score;
 }
-int State::queen_evaluate(int x, int y, int side)
+int State::queen_evaluate(int x, int y)
 {
   int score = 0;
-  score += upward_hold(x, y, side);
-  score += downward_hold(x, y, side);
-  score += left_hold(x, y, side);
-  score += right_hold(x, y, side);
-  score += left_up_hold(x, y, side);
-  score += right_up_hold(x, y, side);
-  score += left_down_hold(x, y, side);
-  score += right_down_hold(x, y, side);
+  score += upward_hold(x, y);
+  score += downward_hold(x, y);
+  score += left_hold(x, y);
+  score += right_hold(x, y);
+  score += left_up_hold(x, y);
+  score += right_up_hold(x, y);
+  score += left_down_hold(x, y);
+  score += right_down_hold(x, y);
   return score;
 }
 
@@ -276,18 +160,18 @@ int State::evaluate(){
           break;
         case 2: // rook
           stand[side] += 5;
-          stand[side] += rook_evaluate(i, j, side);
+          stand[side] += rook_evaluate(i, j);
           break;
         case 3: // knight
           stand[side] += knight_score[side][i][j];
           break;
         case 4: // bishop
           stand[side] += 4;
-          stand[side] += bishop_evaluate(i, j, side);
+          stand[side] += bishop_evaluate(i, j);
           break;
         case 5: // queen
           stand[side] += 9;
-          stand[side] += queen_evaluate(i, j, side);
+          stand[side] += queen_evaluate(i, j);
           break;
         case 6:
           stand[side] += king_score[side][i][j];

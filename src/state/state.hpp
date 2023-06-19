@@ -95,7 +95,7 @@ class State{
         
       },
       {
-        { 10,  5,-10,-10,-10},
+        { 10,  5,  5,  0,-10},
         {-10,-10,-10,-10,-10},
         {-10,-10,-10,-10,-10},
         {-10,-10,-10,-10,-10},
@@ -112,22 +112,21 @@ class State{
     int evaluate();
 
     // tools
-    void hold_init();
     bool pass(int x, int y);
 
-    int upward_hold(int x, int y, int side);
-    int downward_hold(int x, int y, int side);
-    int left_hold(int x, int y, int side);
-    int right_hold(int x, int y, int side);
-    int left_up_hold(int x, int y, int side);
-    int right_up_hold(int x, int y, int side);
-    int left_down_hold(int x, int y, int side);
-    int right_down_hold(int x, int y, int side);
+    int upward_hold(int x, int y);
+    int downward_hold(int x, int y);
+    int left_hold(int x, int y);
+    int right_hold(int x, int y);
+    int left_up_hold(int x, int y);
+    int right_up_hold(int x, int y);
+    int left_down_hold(int x, int y);
+    int right_down_hold(int x, int y);
 
     //evaluates
-    int rook_evaluate(int x, int y, int side);
-    int bishop_evaluate(int x, int y, int steps);
-    int queen_evaluate(int x, int y, int steps);
+    int rook_evaluate(int x, int y);
+    int bishop_evaluate(int x, int y);
+    int queen_evaluate(int x, int y);
 
     State* next_state(Move move);
     void get_legal_actions();
