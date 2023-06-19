@@ -24,7 +24,7 @@ Move Minimax::get_move(State* state, int depth)
   Move best_step = action[(rand()+depth)%action.size()];
   for(it = action.begin();it != action.end(); it++)
   {
-    possible_state_value = max(state, depth, *it);
+    possible_state_value = max(state, depth + 3, *it);
     if(possible_state_value > max_evaluate)
     {
       max_evaluate = possible_state_value;
