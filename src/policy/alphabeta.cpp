@@ -17,15 +17,16 @@
 
 Move Alphabeta::get_move(State* state, int depth)
 {
+  int player_num = state->player;
   if(!state->legal_actions.size())
     state->get_legal_actions();
   std::vector<Move> action = state->legal_actions;
   std::vector<Move>::iterator it;
   Move best_move;
-  int max = -1, possible_state_value;
+  int max = -1000, possible_state_value;
   for(it = action.begin(); it != action.end(); it++)
   {
-    possible_state_value = alphabeta(state->next_state(*it), 0, __INT_MAX__, depth, true);
+    possible_state_value = alphabeta(state->next_state(*it), 0, __INT_MAX__, depth, true, player_num);
     if(possible_state_value > max)
     {
       max = possible_state_value;
@@ -35,33 +36,23 @@ Move Alphabeta::get_move(State* state, int depth)
   return best_move;
 }
 
-int Alphabeta::max(int lhs, int rhs)
-{
-  return (lhs > rhs)? lhs : rhs;
-}
-
-int Alphabeta::mini(int lhs, int rhs)
-{
-  return (lhs < rhs)? lhs : rhs;
-}
-
-int Alphabeta::alphabeta(State* state, int alpha, int beta,int depth, bool maximizing)
+int Alphabeta::alphabeta(State* state, int alpha, int beta,int depth, bool maximizing, int side)
 {
   if(depth == 0)
   {
-    return state->evaluate();
+    return state->evaluate(side);
   }
   state->get_legal_actions();
   std::vector<Move> action = state->legal_actions;
   std::vector<Move>::iterator it;
   if(maximizing)
   {
-    int value = 0;
+    int value = -1000;
     for(it = action.begin(); it != action.end(); it++)
     {
-      value = max(value, alphabeta(state->next_state(*it), alpha, beta, depth - 1, false));
-      alpha = max(alpha, value);
-      if(alpha > beta) break;
+      value = std::max(value, alphabeta(state->next_state(*it), alpha, beta, depth - 1, false, side));
+      alpha = std::max(alpha, value);
+      if(alpha >= beta) break;
     }
     return value;
   }
@@ -70,9 +61,9 @@ int Alphabeta::alphabeta(State* state, int alpha, int beta,int depth, bool maxim
     int value = __INT_MAX__;
     for(it = action.begin(); it != action.end(); it++)
     {
-      value = mini(value, alphabeta(state->next_state(*it), alpha, beta, depth - 1, true));
-      beta = mini(value, beta);
-      if(beta > alpha) break;
+      value = std::min(value, alphabeta(state->next_state(*it), alpha, beta, depth - 1, true, side));
+      beta = std::min(value, beta);
+      if(beta <= alpha) break;
     }
     return value;
   }

@@ -146,7 +146,7 @@ int State::queen_evaluate(int x, int y)
   return score;
 }
 
-int State::evaluate(){
+int State::evaluate(int player_num){
   int side, stand[2];
   for(int i=0;i<BOARD_H;i++)
   {
@@ -182,7 +182,7 @@ int State::evaluate(){
       }
     }
   }
-  return stand[player] - stand[1-player];
+  return stand[player_num] - stand[1-player_num];
 }
 
 

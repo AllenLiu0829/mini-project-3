@@ -109,7 +109,7 @@ class State{
     State(Board board): board(board){};
     State(Board board, int player): board(board), player(player){};
     
-    int evaluate();
+    int evaluate(int player_num);
 
     // tools
     bool pass(int x, int y);
