@@ -170,7 +170,7 @@ int State::evaluate(){
           stand[side] += bishop_evaluate(i, j);
           break;
         case 5: // queen
-          stand[side] += 9;
+          stand[side] += 15;
           stand[side] += queen_evaluate(i, j);
           break;
         case 6:
