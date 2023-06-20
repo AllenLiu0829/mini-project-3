@@ -179,7 +179,7 @@ int State::evaluate(){
       }
     }
   }
-  return stand[player];
+  return stand[player] - stand[1-player];
 }
 
 
