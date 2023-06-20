@@ -47,7 +47,7 @@ class State{
     Board board;
     int player = 0;
     std::vector<Move> legal_actions;
-    int hold_pos[2][BOARD_H][BOARD_W];
+    int value[7] = {0, 2, 6, 7, 8, 20, 200};
     int pawn_score[2][6][5] = {
       {
         { 9, 9, 9, 9, 9},

@@ -24,7 +24,7 @@ int State::upward_hold(int x, int y)
   {
     if(!pass(k, y))
     {
-      score += this->board.board[0][k][y] + this->board.board[1][k][y];
+      score += value[this->board.board[0][k][y]] + value[this->board.board[1][k][y]];
     }
   }
   return score;
@@ -36,7 +36,7 @@ int State::downward_hold(int x, int y)
   {
     if(!pass(k, y))
     {
-      score += this->board.board[0][k][y] + this->board.board[1][k][y];
+      score += value[this->board.board[0][k][y]] + value[this->board.board[1][k][y]];
     }
   }
   return score;
@@ -48,7 +48,7 @@ int State::right_hold(int x, int y)
   {
     if(!pass(x, k))
     {
-      score += this->board.board[0][x][k] + this->board.board[1][x][k];
+      score += value[this->board.board[0][x][k]] + value[this->board.board[1][x][k]];
     }
   }
   return score;
@@ -60,7 +60,7 @@ int State::left_hold(int x, int y)
   {
     if(!pass(x, k))
     {
-      score += this->board.board[0][x][k] + this->board.board[1][x][k];
+      score += value[this->board.board[0][x][k]] + value[this->board.board[1][x][k]];
     }
   }
   return score;
@@ -72,7 +72,7 @@ int State::left_up_hold(int x, int y)
   {
     if(!pass(l, k))
     {
-      score += this->board.board[0][l][k] + this->board.board[1][l][k];
+      score += value[this->board.board[0][l][k]] + value[this->board.board[1][l][k]];
     }
   }
   return score;
@@ -84,7 +84,7 @@ int State::right_up_hold(int x, int y)
   {
     if(!pass(l, k))
     {
-      score += this->board.board[0][l][k] + this->board.board[1][l][k];
+      score += value[this->board.board[0][l][k]] + value[this->board.board[1][l][k]];
     }
   }
   return score;  
@@ -96,7 +96,7 @@ int State::left_down_hold(int x, int y)
   {
     if(!pass(l, k))
     {
-      score += this->board.board[0][l][k] + this->board.board[1][l][k];
+      score += value[this->board.board[0][l][k]] + value[this->board.board[1][l][k]];
     }
   }
   return score;
@@ -108,7 +108,7 @@ int State::right_down_hold(int x, int y)
   {
     if(!pass(l, k))
     {
-      score += this->board.board[0][l][k] + this->board.board[1][l][k];
+      score += value[this->board.board[0][l][k]] + value[this->board.board[1][l][k]];
     }
   }
   return score;
@@ -157,26 +157,26 @@ int State::evaluate(){
       {
         case 1: // pawn
           stand[side] += 2;
-          //stand[side] += pawn_score[side][i][j];
+          stand[side] += pawn_score[side][i][j];
           break;
         case 2: // rook
           stand[side] += 6;
-          //stand[side] += rook_evaluate(i, j);
+          stand[side] += rook_evaluate(i, j);
           break;
         case 3: // knight
           stand[side] += 7;
-          //stand[side] += knight_score[side][i][j];
+          stand[side] += knight_score[side][i][j];
           break;
         case 4: // bishop
           stand[side] += 8;
-          //stand[side] += bishop_evaluate(i, j);
+          stand[side] += bishop_evaluate(i, j);
           break;
         case 5: // queen
           stand[side] += 20;
-          //stand[side] += queen_evaluate(i, j);
+          stand[side] += queen_evaluate(i, j);
           break;
         case 6:
-          stand[side] += 2000;
+          stand[side] += 200;
           //stand[side] += king_score[side][i][j];
           break;
       }

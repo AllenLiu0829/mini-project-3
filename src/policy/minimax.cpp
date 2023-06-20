@@ -21,7 +21,7 @@ Move Minimax::get_move(State* state, int depth)
     state->get_legal_actions();
   std::vector<Move> action = state->legal_actions;
   std::vector<Move>::iterator it;
-  Move best_move;
+  Move best_move = action[(rand()+depth)%action.size()];
   int max = -100, possible_state_value;
   for(it = action.begin(); it != action.end(); it++)
   {
@@ -46,7 +46,7 @@ int Minimax::minimax(State* state, int depth, bool maximizing)
   std::vector<Move>::iterator it;
   if(maximizing)
   {
-    int value = -10000;
+    int value = -100;
     for(it = action.begin(); it != action.end(); it++)
     {
       value = std::max(value, minimax(state->next_state(*it), depth - 1, false));
