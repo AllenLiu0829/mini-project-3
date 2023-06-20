@@ -5,7 +5,7 @@
 #include "../state/state.hpp"
 #include "../policy/alphabeta.hpp"
 
-#define depth 3
+#define depth 4
 
 State* root;
 

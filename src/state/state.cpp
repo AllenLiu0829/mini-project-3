@@ -17,166 +17,207 @@ bool State::pass(int x, int y)
   return (this->board.board[0][x][y] == 0) && (this->board.board[1][x][y] == 0);
 }
 
-int State::upward_hold(int x, int y)
+int State::upward_hold(int x, int y, int side)
 {
   int score = 0;
   for(int k=(x+1);k<BOARD_H;k++) // upward
   {
     if(!pass(k, y))
     {
-      score += value[this->board.board[0][k][y]] + value[this->board.board[1][k][y]];
+      score += value[(int)this->board.board[side][k][y]] / 2 + value[(int)this->board.board[1 - side][k][y]];
     }
   }
   return score;
 }
-int State::downward_hold(int x, int y)
+int State::downward_hold(int x, int y, int side)
 {
   int score = 0;
   for(int k=(x-1);k>=0;k--) // doward
   {
     if(!pass(k, y))
     {
-      score += value[this->board.board[0][k][y]] + value[this->board.board[1][k][y]];
+      score += value[(int)this->board.board[side][k][y]] / 2 + value[(int)this->board.board[1 - side][k][y]];
     }
   }
   return score;
 }
-int State::right_hold(int x, int y)
+int State::right_hold(int x, int y, int side)
 {
   int score = 0;
   for(int k=(y+1);k<BOARD_W;k++)
   {
     if(!pass(x, k))
     {
-      score += value[this->board.board[0][x][k]] + value[this->board.board[1][x][k]];
+      score += value[(int)this->board.board[side][x][k]] / 2 + value[(int)this->board.board[1 - side][x][k]];
     }
   }
   return score;
 }
-int State::left_hold(int x, int y)
+int State::left_hold(int x, int y, int side)
 {
   int score = 0;
   for(int k=(y-1);k>=0;k--)
   {
     if(!pass(x, k))
     {
-      score += value[this->board.board[0][x][k]] + value[this->board.board[1][x][k]];
+      score += value[(int)this->board.board[side][x][k]] / 2 + value[(int)this->board.board[1 - side][x][k]];
     }
   }
   return score;
 }
-int State::left_up_hold(int x, int y)
+int State::left_up_hold(int x, int y, int side)
 {
   int score = 0;
   for(int k=(y-1), l=(x-1);k>=0, l>=0;k--, l--)
   {
     if(!pass(l, k))
     {
-      score += value[this->board.board[0][l][k]] + value[this->board.board[1][l][k]];
+      score += value[(int)this->board.board[side][l][k]] / 2 + value[(int)this->board.board[1 - side][l][k]];
     }
   }
   return score;
 }
-int State::right_up_hold(int x, int y)
+int State::right_up_hold(int x, int y, int side)
 {
   int score = 0;
   for(int k=(y+1), l=(x-1);k<BOARD_W, l>=0;k++, l--)
   {
     if(!pass(l, k))
     {
-      score += value[this->board.board[0][l][k]] + value[this->board.board[1][l][k]];
+      score += value[(int)this->board.board[side][l][k]] / 2 + value[(int)this->board.board[1 - side][l][k]];
     }
   }
   return score;  
 }
-int State::left_down_hold(int x, int y)
+int State::left_down_hold(int x, int y, int side)
 {
   int score = 0;
   for(int k=(y-1), l=(x+1);k>=0, l<BOARD_H;k--, l++)
   {
     if(!pass(l, k))
     {
-      score += value[this->board.board[0][l][k]] + value[this->board.board[1][l][k]];
+      score += value[(int)this->board.board[side][l][k]] / 2 + value[(int)this->board.board[1 - side][l][k]];
     }
   }
   return score;
 }
-int State::right_down_hold(int x, int y)
+int State::right_down_hold(int x, int y, int side)
 {
   int score = 0;
   for(int k=(y+1), l=(x+1);k<BOARD_W, l<BOARD_H;k++, l++)
   {
     if(!pass(l, k))
     {
-      score += value[this->board.board[0][l][k]] + value[this->board.board[1][l][k]];
+      score += value[(int)this->board.board[side][l][k]] / 2 + value[(int)this->board.board[1 - side][l][k]];
     }
   }
   return score;
 }
 
-int State::rook_evaluate(int x, int y)
+int State::pawn_evaluate(int x, int y, int side)
 {
-  int score = 0;
-  score += upward_hold(x, y);
-  score += downward_hold(x, y);
-  score += left_hold(x, y);
-  score += right_hold(x, y);
+  int flag = (side)? 1:-1, score = 0;
+  int move_x[2] = {1, -1};
+  int move_y[2] = {flag * 1,  flag * 1};
+  for(int i=0;i<2;i++)
+  {
+    score += value[(int)this->board.board[side][x + move_y[i]][y + move_x[i]]] / 2 + value[(int)this->board.board[1 - side][x + move_y[i]][y + move_x[i]]];
+  }
   return score;
 }
-int State::bishop_evaluate(int x, int y)
+int State::rook_evaluate(int x, int y, int side)
 {
   int score = 0;
-  score += left_up_hold(x, y);
-  score += right_up_hold(x, y);
-  score += left_down_hold(x, y);
-  score += right_down_hold(x, y);
+  score += upward_hold(x, y, side);
+  score += downward_hold(x, y, side);
+  score += left_hold(x, y, side);
+  score += right_hold(x, y, side);
   return score;
 }
-int State::queen_evaluate(int x, int y)
+int State::bishop_evaluate(int x, int y, int side)
 {
   int score = 0;
-  score += upward_hold(x, y);
-  score += downward_hold(x, y);
-  score += left_hold(x, y);
-  score += right_hold(x, y);
-  score += left_up_hold(x, y);
-  score += right_up_hold(x, y);
-  score += left_down_hold(x, y);
-  score += right_down_hold(x, y);
+  score += left_up_hold(x, y, side);
+  score += right_up_hold(x, y, side);
+  score += left_down_hold(x, y, side);
+  score += right_down_hold(x, y, side);
+  return score;
+}
+int State::queen_evaluate(int x, int y, int side)
+{
+  int score = 0;
+  score += upward_hold(x, y, side);
+  score += downward_hold(x, y, side);
+  score += left_hold(x, y, side);
+  score += right_hold(x, y, side);
+  score += left_up_hold(x, y, side);
+  score += right_up_hold(x, y, side);
+  score += left_down_hold(x, y, side);
+  score += right_down_hold(x, y, side);
   return score;
 }
 
 int State::evaluate(int player_num){
-  int side, stand[2];
+  int side, stand[2] = {0, 0};
   for(int i=0;i<BOARD_H;i++)
   {
     for(int j=0;j<BOARD_W;j++)
     {
-      side = (this->board.board[0][i][j])? 0 : 1;
+      side = 0;
       switch(this->board.board[side][i][j])
       {
         case 1: // pawn
-          stand[side] += 2;
-          stand[side] += pawn_score[side][i][j];
+          stand[side] += 1;
+          //stand[side] += pawn_score[side][i][j];
+          //stand[side] += pawn_evaluate(i, j, side);
           break;
         case 2: // rook
-          stand[side] += 6;
-          stand[side] += rook_evaluate(i, j);
+          stand[side] += 5;
+          //stand[side] += rook_evaluate(i, j, side);
           break;
         case 3: // knight
-          stand[side] += 7;
-          stand[side] += knight_score[side][i][j];
+          stand[side] += 3;
+          //stand[side] += knight_score[side][i][j];
           break;
         case 4: // bishop
-          stand[side] += 8;
-          stand[side] += bishop_evaluate(i, j);
+          stand[side] += 3;
+          //stand[side] += bishop_evaluate(i, j, side);
           break;
         case 5: // queen
-          stand[side] += 20;
-          stand[side] += queen_evaluate(i, j);
+          stand[side] += 9;
+          //stand[side] += queen_evaluate(i, j, side);
           break;
         case 6:
-          stand[side] += 200;
+          stand[side] += 1000;
+          //stand[side] += king_score[side][i][j];
+          break;
+      }
+      side = 1;
+      switch(this->board.board[side][i][j])
+      {
+        case 1: // pawn
+          stand[side] += 1;
+          //stand[side] += pawn_score[side][i][j];
+          //stand[side] += pawn_evaluate(i, j, side);
+          break;
+        case 2: // rook
+          stand[side] += 5;
+          //stand[side] += rook_evaluate(i, j, side);
+          break;
+        case 3: // knight
+          stand[side] += 3;
+          //stand[side] += knight_score[side][i][j];
+          break;
+        case 4: // bishop
+          stand[side] += 3;
+          //stand[side] += bishop_evaluate(i, j, side);
+          break;
+        case 5: // queen
+          stand[side] += 9;
+          //stand[side] += queen_evaluate(i, j, side);
+          break;
+        case 6:
+          stand[side] += 1000;
           //stand[side] += king_score[side][i][j];
           break;
       }

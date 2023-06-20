@@ -114,19 +114,20 @@ class State{
     // tools
     bool pass(int x, int y);
 
-    int upward_hold(int x, int y);
-    int downward_hold(int x, int y);
-    int left_hold(int x, int y);
-    int right_hold(int x, int y);
-    int left_up_hold(int x, int y);
-    int right_up_hold(int x, int y);
-    int left_down_hold(int x, int y);
-    int right_down_hold(int x, int y);
+    int upward_hold(int x, int y, int side);
+    int downward_hold(int x, int y, int side);
+    int left_hold(int x, int y, int side);
+    int right_hold(int x, int , int sidey);
+    int left_up_hold(int x, int y, int side);
+    int right_up_hold(int x, int y, int side);
+    int left_down_hold(int x, int y, int side);
+    int right_down_hold(int x, int y, int side);
 
     //evaluates
-    int rook_evaluate(int x, int y);
-    int bishop_evaluate(int x, int y);
-    int queen_evaluate(int x, int y);
+    int pawn_evaluate(int x, int y, int side);
+    int rook_evaluate(int x, int y, int side);
+    int bishop_evaluate(int x, int y, int side);
+    int queen_evaluate(int x, int y, int side);
 
     State* next_state(Move move);
     void get_legal_actions();

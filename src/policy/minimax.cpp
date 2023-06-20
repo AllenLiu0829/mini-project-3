@@ -26,7 +26,7 @@ Move Minimax::get_move(State* state, int depth)
   int max = -100, possible_state_value;
   for(it = action.begin(); it != action.end(); it++)
   {
-    possible_state_value = minimax(state->next_state(*it), depth, true, player_num);
+    possible_state_value = minimax(state->next_state(*it), depth, false, player_num);
     if(possible_state_value > max)
     {
       max = possible_state_value;

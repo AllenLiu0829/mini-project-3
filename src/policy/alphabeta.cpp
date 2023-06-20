@@ -6,6 +6,7 @@
 #include "vector"
 #include "algorithm"
 #include <iostream>
+#include <climits>
 
 /**
  * @brief choose the maximum priority legal action
@@ -22,32 +23,33 @@ Move Alphabeta::get_move(State* state, int depth)
     state->get_legal_actions();
   std::vector<Move> action = state->legal_actions;
   std::vector<Move>::iterator it;
-  Move best_move;
-  int max = -1000, possible_state_value;
+  Move best_move = action[(rand()+depth)%action.size()];
+  int alpha = INT_MIN, beta = __INT_MAX__, max = INT_MIN, possible_state_value;
   for(it = action.begin(); it != action.end(); it++)
   {
-    possible_state_value = alphabeta(state->next_state(*it), 0, __INT_MAX__, depth, true, player_num);
+    possible_state_value = alphabeta(state->next_state(*it), alpha, beta, depth, false, player_num);
     if(possible_state_value > max)
     {
       max = possible_state_value;
       best_move = *it;
     }
+    alpha = std::max(alpha, possible_state_value);
   }
   return best_move;
 }
 
 int Alphabeta::alphabeta(State* state, int alpha, int beta,int depth, bool maximizing, int side)
 {
-  if(depth == 0)
+  state->get_legal_actions();
+  if(depth == 0 || state->legal_actions.size() == 0)
   {
     return state->evaluate(side);
   }
-  state->get_legal_actions();
   std::vector<Move> action = state->legal_actions;
   std::vector<Move>::iterator it;
   if(maximizing)
   {
-    int value = -1000;
+    int value = INT_MIN;
     for(it = action.begin(); it != action.end(); it++)
     {
       value = std::max(value, alphabeta(state->next_state(*it), alpha, beta, depth - 1, false, side));
