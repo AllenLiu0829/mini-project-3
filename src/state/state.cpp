@@ -156,23 +156,23 @@ int State::evaluate(){
       switch(this->board.board[side][i][j])
       {
         case 1: // pawn
-          stand[side] += 1;
+          stand[side] += 2;
           //stand[side] += pawn_score[side][i][j];
           break;
         case 2: // rook
-          stand[side] += 5;
+          stand[side] += 6;
           //stand[side] += rook_evaluate(i, j);
           break;
         case 3: // knight
-          stand[side] += 3;
+          stand[side] += 7;
           //stand[side] += knight_score[side][i][j];
           break;
         case 4: // bishop
-          stand[side] += 4;
+          stand[side] += 8;
           //stand[side] += bishop_evaluate(i, j);
           break;
         case 5: // queen
-          stand[side] += 15;
+          stand[side] += 20;
           //stand[side] += queen_evaluate(i, j);
           break;
         case 6:
