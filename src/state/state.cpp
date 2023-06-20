@@ -163,57 +163,28 @@ int State::evaluate(int player_num){
   {
     for(int j=0;j<BOARD_W;j++)
     {
-      side = 0;
+      side = (this->board.board[0][i][j] > 0)? 0 : 1;
       switch(this->board.board[side][i][j])
       {
         case 1: // pawn
           stand[side] += 1;
-          //stand[side] += pawn_score[side][i][j];
-          //stand[side] += pawn_evaluate(i, j, side);
-          break;
-        case 2: // rook
-          stand[side] += 5;
-          //stand[side] += rook_evaluate(i, j, side);
-          break;
-        case 3: // knight
-          stand[side] += 3;
-          //stand[side] += knight_score[side][i][j];
-          break;
-        case 4: // bishop
-          stand[side] += 3;
-          //stand[side] += bishop_evaluate(i, j, side);
-          break;
-        case 5: // queen
-          stand[side] += 9;
-          //stand[side] += queen_evaluate(i, j, side);
-          break;
-        case 6:
-          stand[side] += 1000;
-          //stand[side] += king_score[side][i][j];
-          break;
-      }
-      side = 1;
-      switch(this->board.board[side][i][j])
-      {
-        case 1: // pawn
-          stand[side] += 2;
           stand[side] += pawn_score[side][i][j];
           stand[side] += pawn_evaluate(i, j, side);
           break;
         case 2: // rook
-          stand[side] += 6;
+          stand[side] += 5;
           stand[side] += rook_evaluate(i, j, side);
           break;
         case 3: // knight
-          stand[side] += 7;
+          stand[side] += 3;
           stand[side] += knight_score[side][i][j];
           break;
         case 4: // bishop
-          stand[side] += 8;
+          stand[side] += 3;
           stand[side] += bishop_evaluate(i, j, side);
           break;
         case 5: // queen
-          stand[side] += 20;
+          stand[side] += 9;
           stand[side] += queen_evaluate(i, j, side);
           break;
         case 6:
