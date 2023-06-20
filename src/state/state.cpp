@@ -176,7 +176,7 @@ int State::evaluate(){
           //stand[side] += queen_evaluate(i, j);
           break;
         case 6:
-          stand[side] += 150;
+          stand[side] += 2000;
           //stand[side] += king_score[side][i][j];
           break;
       }

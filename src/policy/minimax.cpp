@@ -46,7 +46,7 @@ int Minimax::minimax(State* state, int depth, bool maximizing)
   std::vector<Move>::iterator it;
   if(maximizing)
   {
-    int value = 0;
+    int value = -10000;
     for(it = action.begin(); it != action.end(); it++)
     {
       value = std::max(value, minimax(state->next_state(*it), depth - 1, false));
